@@ -1,0 +1,141 @@
+{
+  "method": "M9.2 reconstruido",
+  "snapshot_mode": "historical",
+  "snapshot_rule": "commit padre (padre) por ticket",
+  "embedding_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "bm25_weight": 0.8,
+  "semantic_weight": 0.2,
+  "rrf_k": 60,
+  "initial_chunks_per_file": 6,
+  "guided_chunks_per_file": 12,
+  "max_chars_per_chunk": 1500,
+  "repo": "D:\\M92_localizacion_reconstruido\\M92_localizacion\\repos\\django",
+  "embedding_cache_max_items": 30000,
+  "embedding_batch_size": 128,
+  "embedding_device": "cuda",
+  "embedding_cache_hits": 283688,
+  "embedding_cache_misses": 23281,
+  "tickets_processed": 20,
+  "snapshots": {
+    "69331bb851c34f05bc77e9fc24020fe6908b9cd5": {
+      "tickets": 1,
+      "python_files_detected": 2588,
+      "files_indexed": 2066,
+      "chunks_indexed": 33363
+    },
+    "03f6159407600de8b98992e675c45bffde9fca5b": {
+      "tickets": 1,
+      "python_files_detected": 2588,
+      "files_indexed": 2066,
+      "chunks_indexed": 33364
+    },
+    "372eaa395f167c038e546c6be554c96014d40109": {
+      "tickets": 1,
+      "python_files_detected": 2588,
+      "files_indexed": 2066,
+      "chunks_indexed": 33376
+    },
+    "495d7a1ddf3c8c83d49f099ee3599afbc28306fe": {
+      "tickets": 1,
+      "python_files_detected": 2588,
+      "files_indexed": 2066,
+      "chunks_indexed": 33378
+    },
+    "b23fb2c8198aee5c209bb24c0738d71970cffdc4": {
+      "tickets": 1,
+      "python_files_detected": 2588,
+      "files_indexed": 2066,
+      "chunks_indexed": 33379
+    },
+    "53d8646f799de7f92ab9defe9dc56c6125448102": {
+      "tickets": 1,
+      "python_files_detected": 2588,
+      "files_indexed": 2066,
+      "chunks_indexed": 33378
+    },
+    "979f61abd322507aafced9627702362e541ec34e": {
+      "tickets": 1,
+      "python_files_detected": 2588,
+      "files_indexed": 2066,
+      "chunks_indexed": 33377
+    },
+    "aaea9deac4dea08ada934a930cfc27765358d8da": {
+      "tickets": 1,
+      "python_files_detected": 2589,
+      "files_indexed": 2067,
+      "chunks_indexed": 33385
+    },
+    "ceecd0556dc6f013b5b62fedb12453b8ae3b8067": {
+      "tickets": 1,
+      "python_files_detected": 2589,
+      "files_indexed": 2067,
+      "chunks_indexed": 33386
+    },
+    "f600e3fad6e92d9fe1ad8b351dc8446415f24345": {
+      "tickets": 1,
+      "python_files_detected": 2589,
+      "files_indexed": 2067,
+      "chunks_indexed": 33386
+    },
+    "581ba5a9486ed73cb81031d85b3ce1b27a960109": {
+      "tickets": 1,
+      "python_files_detected": 2589,
+      "files_indexed": 2067,
+      "chunks_indexed": 33396
+    },
+    "e2d9d66a22f9004c0349f6aa9f8762fa558bdee8": {
+      "tickets": 1,
+      "python_files_detected": 2589,
+      "files_indexed": 2067,
+      "chunks_indexed": 33399
+    },
+    "4c1b401e8250f9f520b3c7dc369554477ce8b15a": {
+      "tickets": 1,
+      "python_files_detected": 2589,
+      "files_indexed": 2067,
+      "chunks_indexed": 33389
+    },
+    "8b3e714ecf409ed6c9628c3f2a4e033cbfa4253b": {
+      "tickets": 1,
+      "python_files_detected": 2589,
+      "files_indexed": 2067,
+      "chunks_indexed": 33399
+    },
+    "927c903f3cd25c817c21738328b53991c035b415": {
+      "tickets": 1,
+      "python_files_detected": 2589,
+      "files_indexed": 2067,
+      "chunks_indexed": 33399
+    },
+    "d202846ced2f58d7a34ad80bfe2bde8a542a70b9": {
+      "tickets": 1,
+      "python_files_detected": 2589,
+      "files_indexed": 2067,
+      "chunks_indexed": 33403
+    },
+    "7400da49a5d0ec5a087c3cf05e0b2d15048fc93f": {
+      "tickets": 1,
+      "python_files_detected": 2589,
+      "files_indexed": 2067,
+      "chunks_indexed": 33407
+    },
+    "a5a28de89dabfa03302a5893102b6f1a7c7861a1": {
+      "tickets": 1,
+      "python_files_detected": 2589,
+      "files_indexed": 2067,
+      "chunks_indexed": 33416
+    },
+    "1e0dcd6c8bfa4519c21014c73eb510620dd1a000": {
+      "tickets": 1,
+      "python_files_detected": 2589,
+      "files_indexed": 2067,
+      "chunks_indexed": 33413
+    },
+    "d08d4f464ab11cc226d4e197c0f43e26a7fd2961": {
+      "tickets": 1,
+      "python_files_detected": 2589,
+      "files_indexed": 2067,
+      "chunks_indexed": 33414
+    }
+  }
+}

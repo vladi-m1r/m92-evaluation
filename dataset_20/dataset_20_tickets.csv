@@ -1,0 +1,1003 @@
+﻿id,summary,reporter,owner,description,type,status,component,version,severity,resolution,keywords,cc,stage,has_patch,needs_docs,needs_tests,needs_better_patch,easy,ui_ux,n_commits,sha,padre,fecha_arreglo,fecha_ultimo_commit,n_archivos_codigo,n_archivos_tests,lineas_add_codigo,lineas_del_codigo,lineas_codigo_total,lineas_add_tests,lineas_del_tests,lineas_tests_total,archivos_codigo,archivos_tests,modulos_codigo,n_modulos,modulo_principal,descripcion_sin_enlaces,tiene_enlace_pr,tiene_enlace_commit,tiene_traceback,tiene_codigo,n_palabras_titulo,n_palabras_descripcion,tipo_iso_propuesto,cierre_limpio,particion,url_ticket,url_commit,atipico_tamano,descripcion_corta,texto_modelo
+31128,Custom template tags raise TemplateSyntaxError when keyword-only arguments with defaults are provided.,P-Seebauer,P-Seebauer,"When creating simple tags without variable keyword args, but an keyword argument with a default value. It's not possible to supply any other variable.
+
+{{{
+@register.simple_tag
+def hello(*, greeting='hello'):
+    return f'{greeting} world'
+}}}
+
+{{{
+{% hello greeting='hi' %}
+}}}
+
+Raises “'hello' received unexpected keyword argument 'greeting'”
+
+
+Also supplying a keyword argument a second time raises the wrong error message:
+
+{{{
+#tag
+@register.simple_tag
+def hi(*, greeting):
+    return f'{greeting} world'
+}}}
+
+{{{
+{% hi greeting='hi' greeting='hello' %}
+}}}
+
+Raises “'hi' received unexpected keyword argument 'greeting'”
+instead of ""'hi' received multiple values for keyword argument 'greeting'""
+
+
+Same goes for inclusion tags (is the same code) I already have a fix ready, will push it after creating the ticket (that I have a ticket# for the commit).
+
+Is actually for all versions since the offending line is from 2.0…",Bug,closed,Template system,dev,Normal,fixed,,Alexander Allakhverdiyev,Accepted,1,0,0,0,0,0,1,e3d546a1d986f83d8698c32e13afd048b65d06eb,69331bb851c34f05bc77e9fc24020fe6908b9cd5,2020-01-02,2020-01-02,1,2,1,1,2,35,0,35,django/template/library.py,tests/template_tests/templatetags/inclusion.py;tests/template_tests/test_custom.py,template,1,template,"When creating simple tags without variable keyword args, but an keyword argument with a default value. It's not possible to supply any other variable.
+
+{{{
+@register.simple_tag
+def hello(*, greeting='hello'):
+    return f'{greeting} world'
+}}}
+
+{{{
+{% hello greeting='hi' %}
+}}}
+
+Raises “'hello' received unexpected keyword argument 'greeting'”
+
+
+Also supplying a keyword argument a second time raises the wrong error message:
+
+{{{
+#tag
+@register.simple_tag
+def hi(*, greeting):
+    return f'{greeting} world'
+}}}
+
+{{{
+{% hi greeting='hi' greeting='hello' %}
+}}}
+
+Raises “'hi' received unexpected keyword argument 'greeting'”
+instead of ""'hi' received multiple values for keyword argument 'greeting'""
+
+
+Same goes for inclusion tags (is the same code) I already have a fix ready, will push it after creating the ticket (that I have a ticket# for the commit).
+
+Is actually for all versions since the offending line is from 2.0…",0,0,0,1,12,135,correctivo,1,entrenamiento,https://code.djangoproject.com/ticket/31128,https://github.com/django/django/commit/e3d546a1d986f83d8698c32e13afd048b65d06eb,0,0,"Custom template tags raise TemplateSyntaxError when keyword-only arguments with defaults are provided. When creating simple tags without variable keyword args, but an keyword argument with a default value. It's not possible to supply any other variable. @register.simple_tag def hello(*, greeting='hello'): return f'{greeting} world' {% hello greeting='hi' %} Raises “'hello' received unexpected keyword argument 'greeting'” Also supplying a keyword argument a second time raises the wrong error message: #tag @register.simple_tag def hi(*, greeting): return f'{greeting} world' {% hi greeting='hi' greeting='hello' %} Raises “'hi' received unexpected keyword argument 'greeting'” instead of ""'hi' received multiple values for keyword argument 'greeting'"" Same goes for inclusion tags (is the same code) I already have a fix ready, will push it after creating the ticket (that I have a ticket# for the commit). Is actually for all versions since the offending line is from 2.0…"
+28991,"Add an admin filter with choices ""all"", ""blank"", ""not blank""",Jonas Haag,Federico Jaramillo Martínez,"Add a new admin filter that allows to show only objects with a blank (or non-blank) field value. Shows three options ""all"", ""blank"", ""not blank"".
+
+This is something I've regularly required and there doesn't seem to be any third party package implementing this, but there are at least a few other people having the need: https://stackoverflow.com/questions/37799694/django-admin-list-filter-filter-field-by-is-empty-none-or-empty-string https://gist.github.com/haplo/2695675 Note that while the filter could easily live in a third party package, I think it makes sense to include it in Django. It's not much code and I guess it's a common requirement.",New feature,closed,contrib.admin,dev,Normal,fixed,,,Ready for checkin,1,0,0,0,0,0,1,372eaa395f167c038e546c6be554c96014d40109,03f6159407600de8b98992e675c45bffde9fca5b,2020-01-03,2020-01-03,2,1,49,3,52,102,2,104,django/contrib/admin/__init__.py;django/contrib/admin/filters.py,tests/admin_filters/tests.py,contrib/admin,1,contrib/admin,"Add a new admin filter that allows to show only objects with a blank (or non-blank) field value. Shows three options ""all"", ""blank"", ""not blank"".
+
+This is something I've regularly required and there doesn't seem to be any third party package implementing this, but there are at least a few other people having the need: https://stackoverflow.com/questions/37799694/django-admin-list-filter-filter-field-by-is-empty-none-or-empty-string https://gist.github.com/haplo/2695675 Note that while the filter could easily live in a third party package, I think it makes sense to include it in Django. It's not much code and I guess it's a common requirement.",0,0,0,0,10,91,perfectivo,1,entrenamiento,https://code.djangoproject.com/ticket/28991,https://github.com/django/django/commit/372eaa395f167c038e546c6be554c96014d40109,0,0,"Add an admin filter with choices ""all"", ""blank"", ""not blank"". Add a new admin filter that allows to show only objects with a blank (or non-blank) field value. Shows three options ""all"", ""blank"", ""not blank"". This is something I've regularly required and there doesn't seem to be any third party package implementing this, but there are at least a few other people having the need: [enlace] [enlace] Note that while the filter could easily live in a third party package, I think it makes sense to include it in Django. It's not much code and I guess it's a common requirement."
+31133,Annotations crash with Subquery and DurationFields.,Reupen Shah,Simon Charette,"Consider the following models:
+
+{{{#!python
+class ParentModel(models.Model):
+    pass
+
+
+class DatedModel(models.Model):
+    timestamp = models.DateTimeField()
+    parent = models.ForeignKey(ParentModel, on_delete=models.CASCADE)
+}}}
+
+
+and the following query set:
+
+{{{#!python
+from django.db.models import DurationField, ExpressionWrapper, F
+from django.db.models.functions import Now
+from django.db.models import Max, OuterRef, Subquery
+
+# importation of models omitted
+
+queryset = ParentModel.objects.annotate(
+    max_timestamp=Subquery(
+        DatedModel.objects.annotate(
+            _annotation=Max('timestamp'),
+        ).filter(
+            parent_id=OuterRef('pk'),
+        ).values(
+            '_annotation',
+        ),
+    ),
+    test_annotation=ExpressionWrapper(
+        Now() - F('max_timestamp'),
+        output_field=DurationField(),
+    ),
+)
+
+queryset.first()
+}}}
+
+With Django 2.2.9, there is no error when evaluating this query set.
+
+With Django 3.0.0 to 3.0.2, and master at e3d546a1d986f83d8698c32e13afd048b65d06eb, the following error happens:
+
+{{{#!python
+Traceback (most recent call last):
+  File ""<input>"", line 23, in <module>
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/query.py"", line 664, in first
+    for obj in (self if self.ordered else self.order_by('pk'))[:1]:
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/query.py"", line 276, in __iter__
+    self._fetch_all()
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/query.py"", line 1261, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/query.py"", line 57, in __iter__
+    results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 1131, in execute_sql
+    sql, params = self.as_sql()
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 490, in as_sql
+    extra_select, order_by, group_by = self.pre_sql_setup()
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 51, in pre_sql_setup
+    self.setup_query()
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 42, in setup_query
+    self.select, self.klass_info, self.annotation_col_map = self.get_select()
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 257, in get_select
+    sql, params = self.compile(col)
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 422, in compile
+    sql, params = node.as_sql(self, self.connection)
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/expressions.py"", line 876, in as_sql
+    return self.expression.as_sql(compiler, connection)
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/expressions.py"", line 451, in as_sql
+    return TemporalSubtraction(self.lhs, self.rhs).as_sql(compiler, connection)
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/expressions.py"", line 512, in as_sql
+    return connection.ops.subtract_temporals(self.lhs.output_field.get_internal_type(), lhs, rhs)
+  File ""/project/env/lib/python3.7/site-packages/django/db/backends/postgresql/operations.py"", line 273, in subtract_temporals
+    return super().subtract_temporals(internal_type, lhs, rhs)
+  File ""/project/env/lib/python3.7/site-packages/django/db/backends/base/operations.py"", line 628, in subtract_temporals
+    return ""(%s - %s)"" % (lhs_sql, rhs_sql), lhs_params + rhs_params
+TypeError: can only concatenate list (not ""tuple"") to list
+}}}
+
+For reference, Django 2.2.9 executes this when evaluating the entire query set:
+
+{{{#!sql
+SELECT ""people_parentmodel"".""id"",
+       (
+           SELECT MAX(U0.""timestamp"") AS ""_annotation""
+           FROM ""people_datedmodel"" U0
+           WHERE U0.""parent_id"" = (""people_parentmodel"".""id"")
+           GROUP BY U0.""id""
+       )                                            AS ""max_timestamp"",
+       (STATEMENT_TIMESTAMP() - (SELECT MAX(U0.""timestamp"") AS ""_annotation""
+                                 FROM ""people_datedmodel"" U0
+                                 WHERE U0.""parent_id"" = (""people_parentmodel"".""id"")
+                                 GROUP BY U0.""id"")) AS ""test_annotation""
+FROM ""people_parentmodel""
+}}}",Bug,closed,"Database layer (models, ORM)",3.0,Release blocker,fixed,,Simon Charette Gagaro,Accepted,1,0,0,0,0,0,1,9bcbcd599abac91ea853b2fe10b784ba32df043e,372eaa395f167c038e546c6be554c96014d40109,2020-01-03,2020-01-03,5,1,12,9,21,31,0,31,django/db/backends/base/operations.py;django/db/backends/mysql/operations.py;django/db/backends/oracle/operations.py;django/db/backends/postgresql/operations.py;django/db/backends/sqlite3/operations.py,tests/expressions/tests.py,db,1,db,"Consider the following models:
+
+{{{#!python
+class ParentModel(models.Model):
+    pass
+
+
+class DatedModel(models.Model):
+    timestamp = models.DateTimeField()
+    parent = models.ForeignKey(ParentModel, on_delete=models.CASCADE)
+}}}
+
+
+and the following query set:
+
+{{{#!python
+from django.db.models import DurationField, ExpressionWrapper, F
+from django.db.models.functions import Now
+from django.db.models import Max, OuterRef, Subquery
+
+# importation of models omitted
+
+queryset = ParentModel.objects.annotate(
+    max_timestamp=Subquery(
+        DatedModel.objects.annotate(
+            _annotation=Max('timestamp'),
+        ).filter(
+            parent_id=OuterRef('pk'),
+        ).values(
+            '_annotation',
+        ),
+    ),
+    test_annotation=ExpressionWrapper(
+        Now() - F('max_timestamp'),
+        output_field=DurationField(),
+    ),
+)
+
+queryset.first()
+}}}
+
+With Django 2.2.9, there is no error when evaluating this query set.
+
+With Django 3.0.0 to 3.0.2, and master at e3d546a1d986f83d8698c32e13afd048b65d06eb, the following error happens:
+
+{{{#!python
+Traceback (most recent call last):
+  File ""<input>"", line 23, in <module>
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/query.py"", line 664, in first
+    for obj in (self if self.ordered else self.order_by('pk'))[:1]:
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/query.py"", line 276, in __iter__
+    self._fetch_all()
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/query.py"", line 1261, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/query.py"", line 57, in __iter__
+    results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 1131, in execute_sql
+    sql, params = self.as_sql()
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 490, in as_sql
+    extra_select, order_by, group_by = self.pre_sql_setup()
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 51, in pre_sql_setup
+    self.setup_query()
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 42, in setup_query
+    self.select, self.klass_info, self.annotation_col_map = self.get_select()
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 257, in get_select
+    sql, params = self.compile(col)
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 422, in compile
+    sql, params = node.as_sql(self, self.connection)
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/expressions.py"", line 876, in as_sql
+    return self.expression.as_sql(compiler, connection)
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/expressions.py"", line 451, in as_sql
+    return TemporalSubtraction(self.lhs, self.rhs).as_sql(compiler, connection)
+  File ""/project/env/lib/python3.7/site-packages/django/db/models/expressions.py"", line 512, in as_sql
+    return connection.ops.subtract_temporals(self.lhs.output_field.get_internal_type(), lhs, rhs)
+  File ""/project/env/lib/python3.7/site-packages/django/db/backends/postgresql/operations.py"", line 273, in subtract_temporals
+    return super().subtract_temporals(internal_type, lhs, rhs)
+  File ""/project/env/lib/python3.7/site-packages/django/db/backends/base/operations.py"", line 628, in subtract_temporals
+    return ""(%s - %s)"" % (lhs_sql, rhs_sql), lhs_params + rhs_params
+TypeError: can only concatenate list (not ""tuple"") to list
+}}}
+
+For reference, Django 2.2.9 executes this when evaluating the entire query set:
+
+{{{#!sql
+SELECT ""people_parentmodel"".""id"",
+       (
+           SELECT MAX(U0.""timestamp"") AS ""_annotation""
+           FROM ""people_datedmodel"" U0
+           WHERE U0.""parent_id"" = (""people_parentmodel"".""id"")
+           GROUP BY U0.""id""
+       )                                            AS ""max_timestamp"",
+       (STATEMENT_TIMESTAMP() - (SELECT MAX(U0.""timestamp"") AS ""_annotation""
+                                 FROM ""people_datedmodel"" U0
+                                 WHERE U0.""parent_id"" = (""people_parentmodel"".""id"")
+                                 GROUP BY U0.""id"")) AS ""test_annotation""
+FROM ""people_parentmodel""
+}}}",0,0,1,1,6,322,correctivo,1,entrenamiento,https://code.djangoproject.com/ticket/31133,https://github.com/django/django/commit/9bcbcd599abac91ea853b2fe10b784ba32df043e,0,0,"Annotations crash with Subquery and DurationFields. Consider the following models: class ParentModel(models.Model): pass class DatedModel(models.Model): timestamp = models.DateTimeField() parent = models.ForeignKey(ParentModel, on_delete=models.CASCADE) and the following query set: from django.db.models import DurationField, ExpressionWrapper, F from django.db.models.functions import Now from django.db.models import Max, OuterRef, Subquery # importation of models omitted queryset = ParentModel.objects.annotate( max_timestamp=Subquery( DatedModel.objects.annotate( _annotation=Max('timestamp'), ).filter( parent_id=OuterRef('pk'), ).values( '_annotation', ), ), test_annotation=ExpressionWrapper( Now() - F('max_timestamp'), output_field=DurationField(), ), ) queryset.first() With Django 2.2.9, there is no error when evaluating this query set. With Django 3.0.0 to 3.0.2, and master at e3d546a1d986f83d8698c32e13afd048b65d06eb, the following error happens: Traceback (most recent call last): File ""<input>"", line 23, in <module> File ""/project/env/lib/python3.7/site-packages/django/db/models/query.py"", line 664, in first for obj in (self if self.ordered else self.order_by('pk'))[:1]: File ""/project/env/lib/python3.7/site-packages/django/db/models/query.py"", line 276, in __iter__ self._fetch_all() File ""/project/env/lib/python3.7/site-packages/django/db/models/query.py"", line 1261, in _fetch_all self._result_cache = list(self._iterable_class(self)) File ""/project/env/lib/python3.7/site-packages/django/db/models/query.py"", line 57, in __iter__ results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size) File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 1131, in execute_sql sql, params = self.as_sql() File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 490, in as_sql extra_select, order_by, group_by = self.pre_sql_setup() File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 51, in pre_sql_setup self.setup_query() File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 42, in setup_query self.select, self.klass_info, self.annotation_col_map = self.get_select() File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 257, in get_select sql, params = self.compile(col) File ""/project/env/lib/python3.7/site-packages/django/db/models/sql/compiler.py"", line 422, in compile sql, params = node.as_sql(self, self.connection) File ""/project/env/lib/python3.7/site-packages/django/db/models/expressions.py"", line 876, in as_sql return self.expression.as_sql(compiler, connection) File ""/project/env/lib/python3.7/site-packages/django/db/models/expressions.py"", line 451, in as_sql return TemporalSubtraction(self.lhs, self.rhs).as_sql(compiler, connection) File ""/project/env/lib/python3.7/site-packages/django/db/models/expressions.py"", line 512, in as_sql return connection.ops.subtract_temporals(self.lhs.output_field.get_internal_type(), lhs, rhs) File ""/project/env/lib/python3.7/site-packages/django/db/backends/postgresql/operations.py"", line 273, in subtract_temporals return super().subtract_temporals(internal_type, lhs, rhs) File ""/project/env/lib/python3.7/site-packages/django/db/backends/base/operations.py"", line 628, in subtract_temporals return ""(%s - %s)"" % (lhs_sql, rhs_sql), lhs_params + rhs_params TypeError: can only concatenate list (not ""tuple"") to list For reference, Django 2.2.9 executes this when evaluating the entire query set: SELECT ""people_parentmodel"".""id"", ( SELECT MAX(U0.""timestamp"") AS ""_annotation"" FROM ""people_datedmodel"" U0 WHERE U0.""parent_id"" = (""people_parentmodel"".""id"") GROUP BY U0.""id"" ) AS ""max_timestamp"", (STATEMENT_TIMESTAMP() - (SELECT MAX(U0.""timestamp"") AS ""_annotation"" FROM ""people_datedmodel"" U0 WHERE U0.""parent_id"" = (""people_parentmodel"".""id"") GROUP BY U0.""id"")) AS ""test_annotation"" FROM ""people_parentmodel"""
+31136,Multiple annotations with Exists() should not group by aliases.,Sigurd Ljødal,Mariusz Felisiak,"There's a regression in Django 3.0 where an annotation that is not selected is included in the group by section of the query on PostgreSQL. I looks a bit like https://code.djangoproject.com/ticket/31109, but it is still present in Django 3.0.2 (I haven't tested earlier versions yet). I haven't had time to look into where the incorrect group by cause is generated yet.
+
+I have created a test case to reproduce the issue here: https://github.com/django/django/compare/master...ljodal:regression/annotate-groupby-postgresql
+
+It only crashes when running against PostgreSQL. Here's the test case query:
+{{{#!python
+latest_book_pubdate_qs = Book.objects.filter(
+    publisher=OuterRef('pk')
+).values_list('id')
+publisher_qs = Publisher.objects.values('pk').annotate(
+    has_published_books=Exists(latest_book_pubdate_qs),
+).filter(
+    has_published_books=True
+).annotate(
+    book_count=Count('book')
+).values_list('id')
+}}}
+
+The generated query is this:
+{{{#!sql
+SELECT ""aggregation_publisher"".""id"" FROM ""aggregation_publisher"" LEFT OUTER JOIN ""aggregation_book"" ON (""aggregation_publisher"".""id"" = ""aggregation_book"".""publisher_id"") WHERE EXISTS(SELECT U0.""id"" FROM ""aggregation_book"" U0 WHERE U0.""publisher_id"" = ""aggregation_publisher"".""id"") GROUP BY ""aggregation_publisher"".""id"", ""has_published_books""
+}}}
+
+Which crashes because ""has_published_books"" in the ""GROUP BY"" clause is not a column on the table:
+{{{
+Traceback (most recent call last):
+  File ""/Users/sigurdljodal/Code/django/tests/aggregation/tests.py"", line 1166, in test_aggregation_annotation
+    print(list(publisher_qs))
+  File ""/Users/sigurdljodal/Code/django/django/db/models/query.py"", line 270, in __len__
+    self._fetch_all()
+  File ""/Users/sigurdljodal/Code/django/django/db/models/query.py"", line 1284, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File ""/Users/sigurdljodal/Code/django/django/db/models/query.py"", line 144, in __iter__
+    return compiler.results_iter(tuple_expected=True, chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+  File ""/Users/sigurdljodal/Code/django/django/db/models/sql/compiler.py"", line 1085, in results_iter
+    results = self.execute_sql(MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size)
+  File ""/Users/sigurdljodal/Code/django/django/db/models/sql/compiler.py"", line 1133, in execute_sql
+    cursor.execute(sql, params)
+  File ""/Users/sigurdljodal/Code/django/django/db/backends/utils.py"", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File ""/Users/sigurdljodal/Code/django/django/db/backends/utils.py"", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File ""/Users/sigurdljodal/Code/django/django/db/backends/utils.py"", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File ""/Users/sigurdljodal/Code/django/django/db/utils.py"", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File ""/Users/sigurdljodal/Code/django/django/db/backends/utils.py"", line 84, in _execute
+    return self.cursor.execute(sql, params)
+django.db.utils.ProgrammingError: column ""has_published_books"" does not exist
+LINE 1: ...her"".""id"") GROUP BY ""aggregation_publisher"".""id"", ""has_publi...
+}}}",Bug,closed,"Database layer (models, ORM)",3.0,Release blocker,fixed,,Simon Charette jon.dufresne@…,Ready for checkin,1,0,0,0,0,0,1,0f843fdd5b9b2f2307148465cd60f4e1b2befbb4,495d7a1ddf3c8c83d49f099ee3599afbc28306fe,2020-01-04,2020-01-04,1,1,3,1,4,14,0,14,django/db/models/sql/query.py,tests/aggregation/tests.py,db,1,db,"There's a regression in Django 3.0 where an annotation that is not selected is included in the group by section of the query on PostgreSQL. I looks a bit like https://code.djangoproject.com/ticket/31109, but it is still present in Django 3.0.2 (I haven't tested earlier versions yet). I haven't had time to look into where the incorrect group by cause is generated yet.
+
+I have created a test case to reproduce the issue here: https://github.com/django/django/compare/master...ljodal:regression/annotate-groupby-postgresql
+
+It only crashes when running against PostgreSQL. Here's the test case query:
+{{{#!python
+latest_book_pubdate_qs = Book.objects.filter(
+    publisher=OuterRef('pk')
+).values_list('id')
+publisher_qs = Publisher.objects.values('pk').annotate(
+    has_published_books=Exists(latest_book_pubdate_qs),
+).filter(
+    has_published_books=True
+).annotate(
+    book_count=Count('book')
+).values_list('id')
+}}}
+
+The generated query is this:
+{{{#!sql
+SELECT ""aggregation_publisher"".""id"" FROM ""aggregation_publisher"" LEFT OUTER JOIN ""aggregation_book"" ON (""aggregation_publisher"".""id"" = ""aggregation_book"".""publisher_id"") WHERE EXISTS(SELECT U0.""id"" FROM ""aggregation_book"" U0 WHERE U0.""publisher_id"" = ""aggregation_publisher"".""id"") GROUP BY ""aggregation_publisher"".""id"", ""has_published_books""
+}}}
+
+Which crashes because ""has_published_books"" in the ""GROUP BY"" clause is not a column on the table:
+{{{
+Traceback (most recent call last):
+  File ""/Users/sigurdljodal/Code/django/tests/aggregation/tests.py"", line 1166, in test_aggregation_annotation
+    print(list(publisher_qs))
+  File ""/Users/sigurdljodal/Code/django/django/db/models/query.py"", line 270, in __len__
+    self._fetch_all()
+  File ""/Users/sigurdljodal/Code/django/django/db/models/query.py"", line 1284, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File ""/Users/sigurdljodal/Code/django/django/db/models/query.py"", line 144, in __iter__
+    return compiler.results_iter(tuple_expected=True, chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+  File ""/Users/sigurdljodal/Code/django/django/db/models/sql/compiler.py"", line 1085, in results_iter
+    results = self.execute_sql(MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size)
+  File ""/Users/sigurdljodal/Code/django/django/db/models/sql/compiler.py"", line 1133, in execute_sql
+    cursor.execute(sql, params)
+  File ""/Users/sigurdljodal/Code/django/django/db/backends/utils.py"", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File ""/Users/sigurdljodal/Code/django/django/db/backends/utils.py"", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File ""/Users/sigurdljodal/Code/django/django/db/backends/utils.py"", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File ""/Users/sigurdljodal/Code/django/django/db/utils.py"", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File ""/Users/sigurdljodal/Code/django/django/db/backends/utils.py"", line 84, in _execute
+    return self.cursor.execute(sql, params)
+django.db.utils.ProgrammingError: column ""has_published_books"" does not exist
+LINE 1: ...her"".""id"") GROUP BY ""aggregation_publisher"".""id"", ""has_publi...
+}}}",0,0,1,1,9,272,correctivo,1,entrenamiento,https://code.djangoproject.com/ticket/31136,https://github.com/django/django/commit/0f843fdd5b9b2f2307148465cd60f4e1b2befbb4,0,0,"Multiple annotations with Exists() should not group by aliases. There's a regression in Django 3.0 where an annotation that is not selected is included in the group by section of the query on PostgreSQL. I looks a bit like [enlace] but it is still present in Django 3.0.2 (I haven't tested earlier versions yet). I haven't had time to look into where the incorrect group by cause is generated yet. I have created a test case to reproduce the issue here: [enlace] It only crashes when running against PostgreSQL. Here's the test case query: latest_book_pubdate_qs = Book.objects.filter( publisher=OuterRef('pk') ).values_list('id') publisher_qs = Publisher.objects.values('pk').annotate( has_published_books=Exists(latest_book_pubdate_qs), ).filter( has_published_books=True ).annotate( book_count=Count('book') ).values_list('id') The generated query is this: SELECT ""aggregation_publisher"".""id"" FROM ""aggregation_publisher"" LEFT OUTER JOIN ""aggregation_book"" ON (""aggregation_publisher"".""id"" = ""aggregation_book"".""publisher_id"") WHERE EXISTS(SELECT U0.""id"" FROM ""aggregation_book"" U0 WHERE U0.""publisher_id"" = ""aggregation_publisher"".""id"") GROUP BY ""aggregation_publisher"".""id"", ""has_published_books"" Which crashes because ""has_published_books"" in the ""GROUP BY"" clause is not a column on the table: Traceback (most recent call last): File ""/Users/sigurdljodal/Code/django/tests/aggregation/tests.py"", line 1166, in test_aggregation_annotation print(list(publisher_qs)) File ""/Users/sigurdljodal/Code/django/django/db/models/query.py"", line 270, in __len__ self._fetch_all() File ""/Users/sigurdljodal/Code/django/django/db/models/query.py"", line 1284, in _fetch_all self._result_cache = list(self._iterable_class(self)) File ""/Users/sigurdljodal/Code/django/django/db/models/query.py"", line 144, in __iter__ return compiler.results_iter(tuple_expected=True, chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size) File ""/Users/sigurdljodal/Code/django/django/db/models/sql/compiler.py"", line 1085, in results_iter results = self.execute_sql(MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size) File ""/Users/sigurdljodal/Code/django/django/db/models/sql/compiler.py"", line 1133, in execute_sql cursor.execute(sql, params) File ""/Users/sigurdljodal/Code/django/django/db/backends/utils.py"", line 66, in execute return self._execute_with_wrappers(sql, params, many=False, executor=self._execute) File ""/Users/sigurdljodal/Code/django/django/db/backends/utils.py"", line 75, in _execute_with_wrappers return executor(sql, params, many, context) File ""/Users/sigurdljodal/Code/django/django/db/backends/utils.py"", line 84, in _execute return self.cursor.execute(sql, params) File ""/Users/sigurdljodal/Code/django/django/db/utils.py"", line 90, in __exit__ raise dj_exc_value.with_traceback(traceback) from exc_value File ""/Users/sigurdljodal/Code/django/django/db/backends/utils.py"", line 84, in _execute return self.cursor.execute(sql, params) django.db.utils.ProgrammingError: column ""has_published_books"" does not exist LINE 1: ...her"".""id"") GROUP BY ""aggregation_publisher"".""id"", ""has_publi..."
+11385,DateTimeField doesn't accept ISO 8601 formatted date string,Jani Tiainen,Claude Paroz,DateTimeField doesn't accept ISO 8601 formatted date string. Differene is that ISO format allows date and time separator to be capital T letter. (Format being YYYY-MM-DDTHH:MM:SS. Django expects to have only space as a date and time separator.,New feature,closed,Forms,dev,Normal,fixed,datetime orm format,bronger@… W. Trevor King,Ready for checkin,1,0,0,0,0,0,1,1487f16f2d29c7aeaf48117d02a1d7bbeafa3d94,b23fb2c8198aee5c209bb24c0738d71970cffdc4,2020-01-06,2020-01-06,1,3,7,2,9,37,15,52,django/forms/fields.py,tests/forms_tests/field_tests/test_datetimefield.py;tests/forms_tests/tests/test_input_formats.py;tests/timezones/tests.py,forms,1,forms,DateTimeField doesn't accept ISO 8601 formatted date string. Differene is that ISO format allows date and time separator to be capital T letter. (Format being YYYY-MM-DDTHH:MM:SS. Django expects to have only space as a date and time separator.,0,0,0,0,8,38,perfectivo,1,entrenamiento,https://code.djangoproject.com/ticket/11385,https://github.com/django/django/commit/1487f16f2d29c7aeaf48117d02a1d7bbeafa3d94,0,0,DateTimeField doesn't accept ISO 8601 formatted date string. DateTimeField doesn't accept ISO 8601 formatted date string. Differene is that ISO format allows date and time separator to be capital T letter. (Format being YYYY-MM-DDTHH:MM:SS. Django expects to have only space as a date and time separator.
+31118,FileInput shouldn't display required attribute when initial data exists.,thenewguy,shubham singh ,"I think that `ClearableFileInput.use_required_attribute()` (https://github.com/django/django/blob/e703b93a656b78b9b444bb3a9980e305ed002a70/django/forms/widgets.py#L454) should be moved to `FileInput.use_required_attribute()` so that `required` is not output on the html input element that represents `FileInput` when a file is already set (e.g. already saved on a model instance that is being edited).
+
+Maybe I am overlooking a use case where this is not desirable?  I can not think of one.",Cleanup/optimization,closed,Forms,dev,Normal,fixed,,Jon Dufresne shubham singh ,Ready for checkin,1,0,0,0,0,0,1,ffcf1a8ebfbdc8e3afac84aed88d6ed29a57c72b,53d8646f799de7f92ab9defe9dc56c6125448102,2020-01-08,2020-01-08,1,2,3,3,6,30,5,35,django/forms/widgets.py,tests/forms_tests/tests/test_forms.py;tests/forms_tests/widget_tests/test_fileinput.py,forms,1,forms,"I think that `ClearableFileInput.use_required_attribute()` (https://github.com/django/django/blob/e703b93a656b78b9b444bb3a9980e305ed002a70/django/forms/widgets.py#L454) should be moved to `FileInput.use_required_attribute()` so that `required` is not output on the html input element that represents `FileInput` when a file is already set (e.g. already saved on a model instance that is being edited).
+
+Maybe I am overlooking a use case where this is not desirable?  I can not think of one.",0,0,0,0,9,59,preventivo,1,entrenamiento,https://code.djangoproject.com/ticket/31118,https://github.com/django/django/commit/ffcf1a8ebfbdc8e3afac84aed88d6ed29a57c72b,0,0,FileInput shouldn't display required attribute when initial data exists. I think that `ClearableFileInput.use_required_attribute()` ( [enlace] should be moved to `FileInput.use_required_attribute()` so that `required` is not output on the html input element that represents `FileInput` when a file is already set (e.g. already saved on a model instance that is being edited). Maybe I am overlooking a use case where this is not desirable? I can not think of one.
+31141,translation.E004 shouldn't be raised on sublanguages when a base language is available.,Enrique Matías Sánchez,Mariusz Felisiak,"According to Django documentation:
+
+''If a base language is available but the sublanguage specified is not, Django uses the base language. For example, if a user specifies de-at (Austrian German) but Django only has de available, Django uses de.''
+
+However, when using Django 3.0.2, if my settings.py has
+{{{
+LANGUAGE_CODE = ""de-at""
+}}}
+
+I get this error message:
+
+{{{
+SystemCheckError: System check identified some issues:
+
+ERRORS:
+?: (translation.E004) You have provided a value for the LANGUAGE_CODE setting that is not in the LANGUAGES setting.
+}}}
+
+If using
+{{{
+LANGUAGE_CODE = ""es-ar""
+}}}
+Django works fine (es-ar is one of the translations provided out of the box).
+
+",Bug,closed,Core (System checks),3.0,Release blocker,fixed,,pope1ni,Accepted,1,0,0,0,0,0,1,53d8646f799de7f92ab9defe9dc56c6125448102,979f61abd322507aafced9627702362e541ec34e,2020-01-08,2020-01-08,1,1,6,3,9,29,5,34,django/core/checks/translation.py,tests/check_framework/test_translation.py,core,1,core,"According to Django documentation:
+
+''If a base language is available but the sublanguage specified is not, Django uses the base language. For example, if a user specifies de-at (Austrian German) but Django only has de available, Django uses de.''
+
+However, when using Django 3.0.2, if my settings.py has
+{{{
+LANGUAGE_CODE = ""de-at""
+}}}
+
+I get this error message:
+
+{{{
+SystemCheckError: System check identified some issues:
+
+ERRORS:
+?: (translation.E004) You have provided a value for the LANGUAGE_CODE setting that is not in the LANGUAGES setting.
+}}}
+
+If using
+{{{
+LANGUAGE_CODE = ""es-ar""
+}}}
+Django works fine (es-ar is one of the translations provided out of the box).
+
+",0,0,0,1,12,106,correctivo,1,entrenamiento,https://code.djangoproject.com/ticket/31141,https://github.com/django/django/commit/53d8646f799de7f92ab9defe9dc56c6125448102,0,0,"translation.E004 shouldn't be raised on sublanguages when a base language is available. According to Django documentation: If a base language is available but the sublanguage specified is not, Django uses the base language. For example, if a user specifies de-at (Austrian German) but Django only has de available, Django uses de. However, when using Django 3.0.2, if my settings.py has LANGUAGE_CODE = ""de-at"" I get this error message: SystemCheckError: System check identified some issues: ERRORS: ?: (translation.E004) You have provided a value for the LANGUAGE_CODE setting that is not in the LANGUAGES setting. If using LANGUAGE_CODE = ""es-ar"" Django works fine (es-ar is one of the translations provided out of the box)."
+21238,`ImageFieldFile.url` raises an AttributeError exception after retrieving it from cache,Pierre Dulac,Hasan Ramezani,"Hi everyone,
+
+To reproduce the exception, just cache an instance of `ImageFieldFile` then retrieve it and call the `url` property on this retrieved instance.
+
+Here is a minimal code to reproduce : 
+
+{{{
+from django.core.cache import cache
+from django.db import models
+
+class A(models.Model):
+    pictogram = models.ImageField(upload_to='images')
+    class Meta:
+        app_label = 'test'
+
+a = A()
+a.pictogram = 'fake/test/url.png'
+original_picto = a.pictogram
+
+cache_key = 'picto'
+cache.set(cache_key, original_picto, 60)
+cached_picto = cache.get(cache_key)
+
+print original_picto.url
+print cached_picto.url
+}}}
+
+and you get 
+
+{{{
+AttributeError: 'ImageFieldFile' object has no attribute 'storage'
+}}}
+
+Didn't tried to fix it yet...
+
+Have a nice day,
+
+Pierre",Bug,closed,Core (Cache system),dev,Normal,fixed,"imagefield, cache",sky.kok@… lucmult@…,Ready for checkin,1,0,0,0,0,0,1,f600e3fad6e92d9fe1ad8b351dc8446415f24345,aaea9deac4dea08ada934a930cfc27765358d8da,2020-01-09,2020-01-09,1,2,15,5,20,8,0,8,django/db/models/fields/files.py,tests/model_fields/test_filefield.py;tests/model_fields/test_imagefield.py,db,1,db,"Hi everyone,
+
+To reproduce the exception, just cache an instance of `ImageFieldFile` then retrieve it and call the `url` property on this retrieved instance.
+
+Here is a minimal code to reproduce : 
+
+{{{
+from django.core.cache import cache
+from django.db import models
+
+class A(models.Model):
+    pictogram = models.ImageField(upload_to='images')
+    class Meta:
+        app_label = 'test'
+
+a = A()
+a.pictogram = 'fake/test/url.png'
+original_picto = a.pictogram
+
+cache_key = 'picto'
+cache.set(cache_key, original_picto, 60)
+cached_picto = cache.get(cache_key)
+
+print original_picto.url
+print cached_picto.url
+}}}
+
+and you get 
+
+{{{
+AttributeError: 'ImageFieldFile' object has no attribute 'storage'
+}}}
+
+Didn't tried to fix it yet...
+
+Have a nice day,
+
+Pierre",0,0,0,1,10,97,correctivo,1,entrenamiento,https://code.djangoproject.com/ticket/21238,https://github.com/django/django/commit/f600e3fad6e92d9fe1ad8b351dc8446415f24345,0,0,"`ImageFieldFile.url` raises an AttributeError exception after retrieving it from cache. Hi everyone, To reproduce the exception, just cache an instance of `ImageFieldFile` then retrieve it and call the `url` property on this retrieved instance. Here is a minimal code to reproduce : from django.core.cache import cache from django.db import models class A(models.Model): pictogram = models.ImageField(upload_to='images') class Meta: app_label = 'test' a = A() a.pictogram = 'fake/test/url.png' original_picto = a.pictogram cache_key = 'picto' cache.set(cache_key, original_picto, 60) cached_picto = cache.get(cache_key) print original_picto.url print cached_picto.url and you get AttributeError: 'ImageFieldFile' object has no attribute 'storage' Didn't tried to fix it yet... Have a nice day, Pierre"
+30995,Feature/docs: how should url converters decline to match for a named route?,Jack Cushman,Jack Cushman,"It is sometimes convenient to have multiple instances of a named route, where the correct one is chosen based on whether the URL converters `to_url` call succeeds. For example, the attached file has routes like this:
+
+{{{
+    path('export/foo/<foo:obj>', index, name='export'),
+    path('export/bar/<bar:obj>', index, name='export'),
+}}}
+
+I then wanted to put {{{ {% url ""export"" some_foo_or_bar %} }}} in a generic export template and have the correct URL inserted.
+
+My first attempt to do this was to raise {{{ValueError}}} in {{{to_url}}} for non-matching values, hoping that it would work the same as {{{to_python}}} where the docs specify that ""A ValueError is interpreted as no match.""
+
+That didn't work -- nothing catches the ValueError in {{{to_url}}} -- so I found the workaround demonstrated in the attachment: if {{{to_url}}} returns an empty string (or some string that doesn't match the converter's regex), then the later regex check in {{{_reverse_with_prefix}}} will detect the non-match and everything seems to work out.
+
+So this is either a feature request or a documentation check. I'm thinking either:
+
+* {{{_reverse_with_prefix}}} could be updated so {{{to_url}}} works the same as {{{to_python}}}, and a {{{ValueError}}} indicates no match (which I think just means wrapping {{{try: ... except ValueError: continue}}} around the appropriate line), or
+* the docs could be updated to indicate that, in {{{to_url}}}, a converter should return a non-regex-matching string such as the empty string in order to decline a match.",New feature,closed,Core (URLs),dev,Normal,fixed,"reverse, urls, converter",,Ready for checkin,1,0,0,0,0,0,1,eb629f4c028ae220084904db84d633d7b3f0af20,ceecd0556dc6f013b5b62fedb12453b8ae3b8067,2020-01-09,2020-01-09,1,2,8,1,9,36,6,42,django/urls/resolvers.py,tests/urlpatterns/path_same_name_urls.py;tests/urlpatterns/tests.py,urls,1,urls,"It is sometimes convenient to have multiple instances of a named route, where the correct one is chosen based on whether the URL converters `to_url` call succeeds. For example, the attached file has routes like this:
+
+{{{
+    path('export/foo/<foo:obj>', index, name='export'),
+    path('export/bar/<bar:obj>', index, name='export'),
+}}}
+
+I then wanted to put {{{ {% url ""export"" some_foo_or_bar %} }}} in a generic export template and have the correct URL inserted.
+
+My first attempt to do this was to raise {{{ValueError}}} in {{{to_url}}} for non-matching values, hoping that it would work the same as {{{to_python}}} where the docs specify that ""A ValueError is interpreted as no match.""
+
+That didn't work -- nothing catches the ValueError in {{{to_url}}} -- so I found the workaround demonstrated in the attachment: if {{{to_url}}} returns an empty string (or some string that doesn't match the converter's regex), then the later regex check in {{{_reverse_with_prefix}}} will detect the non-match and everything seems to work out.
+
+So this is either a feature request or a documentation check. I'm thinking either:
+
+* {{{_reverse_with_prefix}}} could be updated so {{{to_url}}} works the same as {{{to_python}}}, and a {{{ValueError}}} indicates no match (which I think just means wrapping {{{try: ... except ValueError: continue}}} around the appropriate line), or
+* the docs could be updated to indicate that, in {{{to_url}}}, a converter should return a non-regex-matching string such as the empty string in order to decline a match.",0,0,0,1,12,232,perfectivo,1,entrenamiento,https://code.djangoproject.com/ticket/30995,https://github.com/django/django/commit/eb629f4c028ae220084904db84d633d7b3f0af20,0,0,"Feature/docs: how should url converters decline to match for a named route?. It is sometimes convenient to have multiple instances of a named route, where the correct one is chosen based on whether the URL converters `to_url` call succeeds. For example, the attached file has routes like this: path('export/foo/<foo:obj>', index, name='export'), path('export/bar/<bar:obj>', index, name='export'), I then wanted to put {% url ""export"" some_foo_or_bar %} in a generic export template and have the correct URL inserted. My first attempt to do this was to raise ValueError in to_url for non-matching values, hoping that it would work the same as to_python where the docs specify that ""A ValueError is interpreted as no match."" That didn't work -- nothing catches the ValueError in to_url -- so I found the workaround demonstrated in the attachment: if to_url returns an empty string (or some string that doesn't match the converter's regex), then the later regex check in _reverse_with_prefix will detect the non-match and everything seems to work out. So this is either a feature request or a documentation check. I'm thinking either: * _reverse_with_prefix could be updated so to_url works the same as to_python , and a ValueError indicates no match (which I think just means wrapping try: ... except ValueError: continue around the appropriate line), or * the docs could be updated to indicate that, in to_url , a converter should return a non-regex-matching string such as the empty string in order to decline a match."
+31148,"Raise a descriptive error on update()/delete() operations following QuerySet.union(), intersection(), and difference().",Joon Hwan 김준환,Hasan Ramezani,"b_filter() seems to merge but does not apply to the actual update
+
+{{{
+q = M.objects.none()
+q = q.union(M.objects.a_filter())
+print(q)
+q = q.union(M.objects.b_filter())
+print(q)
+q.update(name='foo')
+}}}
+
+{{{
+<QuerySet [<M: M object (675)>]>
+<QuerySet [<M: M object (675)>, <M: M object (773)>]>
+UPDATE ""m"" SET ""name"" = ""foo"" WHERE `a_filter Conditional statement` ORDER BY U0.""id"" ASC  LIMIT 1); args=(...)
+}}}",Cleanup/optimization,closed,"Database layer (models, ORM)",dev,Normal,fixed,,Hasan Ramezani,Accepted,1,0,0,0,1,0,1,eef3ea847e12f23db9a0af8efdc9543f24b780c4,f600e3fad6e92d9fe1ad8b351dc8446415f24345,2020-01-09,2020-01-09,1,1,2,0,2,2,0,2,django/db/models/query.py,tests/queries/test_qs_combinators.py,db,1,db,"b_filter() seems to merge but does not apply to the actual update
+
+{{{
+q = M.objects.none()
+q = q.union(M.objects.a_filter())
+print(q)
+q = q.union(M.objects.b_filter())
+print(q)
+q.update(name='foo')
+}}}
+
+{{{
+<QuerySet [<M: M object (675)>]>
+<QuerySet [<M: M object (675)>, <M: M object (773)>]>
+UPDATE ""m"" SET ""name"" = ""foo"" WHERE `a_filter Conditional statement` ORDER BY U0.""id"" ASC  LIMIT 1); args=(...)
+}}}",0,0,0,1,12,59,preventivo,1,entrenamiento,https://code.djangoproject.com/ticket/31148,https://github.com/django/django/commit/eef3ea847e12f23db9a0af8efdc9543f24b780c4,0,0,"Raise a descriptive error on update()/delete() operations following QuerySet.union(), intersection(), and difference(). b_filter() seems to merge but does not apply to the actual update q = M.objects.none() q = q.union(M.objects.a_filter()) print(q) q = q.union(M.objects.b_filter()) print(q) q.update(name='foo') <QuerySet [<M: M object (675)>]> <QuerySet [<M: M object (675)>, <M: M object (773)>]> UPDATE ""m"" SET ""name"" = ""foo"" WHERE `a_filter Conditional statement` ORDER BY U0.""id"" ASC LIMIT 1); args=(...)"
+23004,Cleanse entries from request.META in debug views,Daniel Hahler,Daniel Maxson,"In the debug views `settings` is cleansed, which hides e.g. `SECRET_KEY`.
+
+But a lot of sensible information might also be present / come from `request.META`, e.g. in the form of `DJANGO_SECRET_KEY` or `DATABASE_URL`.
+ 
+It might be sensible to apply a filter in `TECHNICAL_500_TEMPLATE` (source code reference: https://github.com/django/django/blob/master/django/views/debug.py#L972-977).
+
+I see that this can be quite specific, but I think it would be sensible to apply `HIDDEN_SETTINGS` to all entries starting with `DJANGO_` and have a setting for additional entries, which might default to `DATABASE_URL` and `SENTRY_DSN`.",New feature,closed,Error reporting,dev,Normal,fixed,,Jack Laxson,Accepted,1,0,0,0,0,0,1,e2d9d66a22f9004c0349f6aa9f8762fa558bdee8,581ba5a9486ed73cb81031d85b3ce1b27a960109,2020-01-10,2020-01-10,3,1,11,2,13,18,0,18,django/views/debug.py;django/views/templates/technical_500.html;django/views/templates/technical_500.txt,tests/view_tests/tests/test_debug.py,views,1,views,"In the debug views `settings` is cleansed, which hides e.g. `SECRET_KEY`.
+
+But a lot of sensible information might also be present / come from `request.META`, e.g. in the form of `DJANGO_SECRET_KEY` or `DATABASE_URL`.
+ 
+It might be sensible to apply a filter in `TECHNICAL_500_TEMPLATE` (source code reference: https://github.com/django/django/blob/master/django/views/debug.py#L972-977).
+
+I see that this can be quite specific, but I think it would be sensible to apply `HIDDEN_SETTINGS` to all entries starting with `DJANGO_` and have a setting for additional entries, which might default to `DATABASE_URL` and `SENTRY_DSN`.",0,0,0,0,7,85,perfectivo,1,entrenamiento,https://code.djangoproject.com/ticket/23004,https://github.com/django/django/commit/e2d9d66a22f9004c0349f6aa9f8762fa558bdee8,0,0,"Cleanse entries from request.META in debug views. In the debug views `settings` is cleansed, which hides e.g. `SECRET_KEY`. But a lot of sensible information might also be present / come from `request.META`, e.g. in the form of `DJANGO_SECRET_KEY` or `DATABASE_URL`. It might be sensible to apply a filter in `TECHNICAL_500_TEMPLATE` (source code reference: [enlace] I see that this can be quite specific, but I think it would be sensible to apply `HIDDEN_SETTINGS` to all entries starting with `DJANGO_` and have a setting for additional entries, which might default to `DATABASE_URL` and `SENTRY_DSN`."
+30980,admin.E130 (duplicate __name__ attributes of actions) should specify which were duplicated.,Keryn Knight,AdamDonna,"The fact that the `__name__` is used is somewhat an implementation detail, and there's no guarantee the user has enough of an understanding of python to know what that attribute is, let alone how to fix it.
+
+This just came up on IRC because a user had defined `actions = [delete_selected]` where `delete_selected` was a reference to their own callable, but shares the name of the base one (and by specifying the `actions = ` they were assuming that they were wholesale replacing the actions list, where that may not be true for site-wide actions) so errored ... but they only had define a list of `len(...) == 1` so how can there be a duplicate (is their thought process)?
+
+The error message should specify those names that occur 2> (rather than just check `len(...)` vs `len(set(...))`), and ought ideally to explain where the duplicate comes from (ie: AdminSite-wide).
+
+Related ticket about E130: #30311 (+ those it references) but is about the replacement strategy rather than the error message itself.",Cleanup/optimization,closed,contrib.admin,dev,Normal,fixed,,,Ready for checkin,1,0,0,0,1,0,1,8b3e714ecf409ed6c9628c3f2a4e033cbfa4253b,e2d9d66a22f9004c0349f6aa9f8762fa558bdee8,2020-01-10,2020-01-10,1,1,15,9,24,2,3,5,django/contrib/admin/checks.py,tests/modeladmin/test_checks.py,contrib/admin,1,contrib/admin,"The fact that the `__name__` is used is somewhat an implementation detail, and there's no guarantee the user has enough of an understanding of python to know what that attribute is, let alone how to fix it.
+
+This just came up on IRC because a user had defined `actions = [delete_selected]` where `delete_selected` was a reference to their own callable, but shares the name of the base one (and by specifying the `actions = ` they were assuming that they were wholesale replacing the actions list, where that may not be true for site-wide actions) so errored ... but they only had define a list of `len(...) == 1` so how can there be a duplicate (is their thought process)?
+
+The error message should specify those names that occur 2> (rather than just check `len(...)` vs `len(set(...))`), and ought ideally to explain where the duplicate comes from (ie: AdminSite-wide).
+
+Related ticket about E130: #30311 (+ those it references) but is about the replacement strategy rather than the error message itself.",0,0,0,0,11,170,preventivo,1,entrenamiento,https://code.djangoproject.com/ticket/30980,https://github.com/django/django/commit/8b3e714ecf409ed6c9628c3f2a4e033cbfa4253b,0,0,"admin.E130 (duplicate __name__ attributes of actions) should specify which were duplicated. The fact that the `__name__` is used is somewhat an implementation detail, and there's no guarantee the user has enough of an understanding of python to know what that attribute is, let alone how to fix it. This just came up on IRC because a user had defined `actions = [delete_selected]` where `delete_selected` was a reference to their own callable, but shares the name of the base one (and by specifying the `actions = ` they were assuming that they were wholesale replacing the actions list, where that may not be true for site-wide actions) so errored ... but they only had define a list of `len(...) == 1` so how can there be a duplicate (is their thought process)? The error message should specify those names that occur 2> (rather than just check `len(...)` vs `len(set(...))`), and ought ideally to explain where the duplicate comes from (ie: AdminSite-wide). Related ticket about E130: #30311 (+ those it references) but is about the replacement strategy rather than the error message itself."
+31154,Enumeration Types are not usable in templates.,Adam Johnson,Adam Johnson,"The new [https://docs.djangoproject.com/en/3.0/ref/models/fields/#enumeration-types enumeration types] are great but can't be used in Django templates due to their being callable. For example this doesn't work:
+
+{{{
+{% if student.year_in_school == YearInSchool.FRESHMAN %}
+}}}
+
+This is because YearInSchool, being a class, is callable, and Django Templates always call callables with no arguments. The call fails because the required `value` argument is missing.
+
+The easy solution would be to declare `do_not_call_in_templates = True` on the various Choices classes.
+",Bug,closed,"Database layer (models, ORM)",3.0,Release blocker,fixed,,,Accepted,1,0,0,0,0,0,1,5166097d7c80cab757e44f2d02f3d148fbbc2ff6,4c1b401e8250f9f520b3c7dc369554477ce8b15a,2020-01-10,2020-01-10,1,1,1,0,1,6,0,6,django/db/models/enums.py,tests/model_enums/tests.py,db,1,db,"The new [https://docs.djangoproject.com/en/3.0/ref/models/fields/#enumeration-types enumeration types] are great but can't be used in Django templates due to their being callable. For example this doesn't work:
+
+{{{
+{% if student.year_in_school == YearInSchool.FRESHMAN %}
+}}}
+
+This is because YearInSchool, being a class, is callable, and Django Templates always call callables with no arguments. The call fails because the required `value` argument is missing.
+
+The easy solution would be to declare `do_not_call_in_templates = True` on the various Choices classes.
+",0,0,0,1,7,75,correctivo,1,entrenamiento,https://code.djangoproject.com/ticket/31154,https://github.com/django/django/commit/5166097d7c80cab757e44f2d02f3d148fbbc2ff6,0,0,"Enumeration Types are not usable in templates. The new enumeration types are great but can't be used in Django templates due to their being callable. For example this doesn't work: {% if student.year_in_school == YearInSchool.FRESHMAN %} This is because YearInSchool, being a class, is callable, and Django Templates always call callables with no arguments. The call fails because the required `value` argument is missing. The easy solution would be to declare `do_not_call_in_templates = True` on the various Choices classes."
+31155,Named groups in choices are not properly validated in case of non str typed values.,sakkada,Mariusz Felisiak,"In case of using typed choices and string value to store it (in my case it is multiple values stored in char field as JSON) it is possible to catch error while run `makemigrations` (`_check_choices` error):
+
+{{{
+main.MultiValueFieldModel.multi_value_field_integer_with_grouped_choices: (fields.E005) 'choices' must be an iterable containing (actual value, human readable name) tuples.
+}}}
+
+Looking deeper into the django code, we see actual error message: `'int' object is not iterable` and it happens in this block of code (https://github.com/django/django/blob/aa6c620249bc8c2a6245c8d7b928b05e7e5e78fc/django/db/models/fields/__init__.py#L271-L275):
+
+{{{
+if self.max_length is not None and group_choices:
+    choice_max_length = max(
+        choice_max_length,
+        *(len(value) for value, _ in group_choices if isinstance(value, str)),
+    )
+}}}
+
+If we have CharField (any other with max_length defined) and grouped choices with non str typed values like:
+{{{
+choices=(
+    ('one', ((1, 'One',), (11, 'Eleven',),),),
+    ('two', ((2, 'Two',), (22, 'Twenty two',),),),
+)
+}}}
+we will have the situation, when `max` function receives only one integer value (`choice_max_length`), because `(len(value) for value, _ in group_choices if isinstance(value, str))` will return empty generator, and that is why error `'int' object is not iterable` raises (`max` function waits iterable if there is only one argument).
+
+Code block:
+{{{
+choice_max_length = max(
+    choice_max_length,
+    *(len(value) for value, _ in group_choices if isinstance(value, str)),
+)
+}}}
+in this case works like:
+{{{
+choice_max_length = max(
+    choice_max_length,
+    *[],
+)
+}}}
+which is incorrect.
+
+The simples **solution** is to add one additional argument to `max` function, which will be usefull only in this partucular situation:
+{{{
+choice_max_length = max(
+    choice_max_length, 0,
+    *(len(value) for value, _ in group_choices if isinstance(value, str)),
+)
+}}}
+",Bug,closed,"Database layer (models, ORM)",3.0,Release blocker,fixed,choices,pope1ni,Ready for checkin,1,0,0,0,0,0,1,6f7998adc784032f4b8918ca2eea27537ea4cbbe,8b3e714ecf409ed6c9628c3f2a4e033cbfa4253b,2020-01-11,2020-01-11,1,1,2,2,4,18,0,18,django/db/models/fields/__init__.py,tests/invalid_models_tests/test_ordinary_fields.py,db,1,db,"In case of using typed choices and string value to store it (in my case it is multiple values stored in char field as JSON) it is possible to catch error while run `makemigrations` (`_check_choices` error):
+
+{{{
+main.MultiValueFieldModel.multi_value_field_integer_with_grouped_choices: (fields.E005) 'choices' must be an iterable containing (actual value, human readable name) tuples.
+}}}
+
+Looking deeper into the django code, we see actual error message: `'int' object is not iterable` and it happens in this block of code (https://github.com/django/django/blob/aa6c620249bc8c2a6245c8d7b928b05e7e5e78fc/django/db/models/fields/__init__.py#L271-L275):
+
+{{{
+if self.max_length is not None and group_choices:
+    choice_max_length = max(
+        choice_max_length,
+        *(len(value) for value, _ in group_choices if isinstance(value, str)),
+    )
+}}}
+
+If we have CharField (any other with max_length defined) and grouped choices with non str typed values like:
+{{{
+choices=(
+    ('one', ((1, 'One',), (11, 'Eleven',),),),
+    ('two', ((2, 'Two',), (22, 'Twenty two',),),),
+)
+}}}
+we will have the situation, when `max` function receives only one integer value (`choice_max_length`), because `(len(value) for value, _ in group_choices if isinstance(value, str))` will return empty generator, and that is why error `'int' object is not iterable` raises (`max` function waits iterable if there is only one argument).
+
+Code block:
+{{{
+choice_max_length = max(
+    choice_max_length,
+    *(len(value) for value, _ in group_choices if isinstance(value, str)),
+)
+}}}
+in this case works like:
+{{{
+choice_max_length = max(
+    choice_max_length,
+    *[],
+)
+}}}
+which is incorrect.
+
+The simples **solution** is to add one additional argument to `max` function, which will be usefull only in this partucular situation:
+{{{
+choice_max_length = max(
+    choice_max_length, 0,
+    *(len(value) for value, _ in group_choices if isinstance(value, str)),
+)
+}}}
+",0,0,0,1,15,254,correctivo,1,entrenamiento,https://code.djangoproject.com/ticket/31155,https://github.com/django/django/commit/6f7998adc784032f4b8918ca2eea27537ea4cbbe,0,0,"Named groups in choices are not properly validated in case of non str typed values. In case of using typed choices and string value to store it (in my case it is multiple values stored in char field as JSON) it is possible to catch error while run `makemigrations` (`_check_choices` error): main.MultiValueFieldModel.multi_value_field_integer_with_grouped_choices: (fields.E005) 'choices' must be an iterable containing (actual value, human readable name) tuples. Looking deeper into the django code, we see actual error message: `'int' object is not iterable` and it happens in this block of code ( [enlace] if self.max_length is not None and group_choices: choice_max_length = max( choice_max_length, *(len(value) for value, _ in group_choices if isinstance(value, str)), ) If we have CharField (any other with max_length defined) and grouped choices with non str typed values like: choices=( ('one', ((1, 'One',), (11, 'Eleven',),),), ('two', ((2, 'Two',), (22, 'Twenty two',),),), ) we will have the situation, when `max` function receives only one integer value (`choice_max_length`), because `(len(value) for value, _ in group_choices if isinstance(value, str))` will return empty generator, and that is why error `'int' object is not iterable` raises (`max` function waits iterable if there is only one argument). Code block: choice_max_length = max( choice_max_length, *(len(value) for value, _ in group_choices if isinstance(value, str)), ) in this case works like: choice_max_length = max( choice_max_length, *[], ) which is incorrect. The simples **solution** is to add one additional argument to `max` function, which will be usefull only in this partucular situation: choice_max_length = max( choice_max_length, 0, *(len(value) for value, _ in group_choices if isinstance(value, str)), )"
+29871,Resetting primary key for a child model doesn't work.,Victor Porton,Chetan Khanna,"In the attached example code setting the primary key to `None` does not work (so that the existing object is overwritten on `save()`).
+
+The most important code fragments of the bug example:
+
+{{{
+from django.db import models
+
+class Item(models.Model):
+    # uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    uid = models.AutoField(primary_key=True, editable=False)
+
+    f = models.BooleanField(default=False)
+
+    def reset(self):
+        self.uid = None
+        self.f = False
+
+class Derived(Item):
+    pass
+}}}
+
+{{{
+class SaveTestCase(TestCase):
+    def setUp(self):
+        self.derived = Derived.objects.create(f=True)  # create the first object
+        item = Item.objects.get(pk=self.derived.pk)
+        obj1 = item.derived
+        obj1.reset()
+        obj1.save()  # the first object is overwritten
+
+    def test_f_true(self):
+        obj = Item.objects.get(pk=self.derived.pk)
+        self.assertTrue(obj.f)
+}}}
+
+Django 2.1.2",Bug,closed,"Database layer (models, ORM)",dev,Normal,fixed,,,Ready for checkin,1,0,0,0,0,0,1,63e6ee1f996e16a1a6238fed16fdb28bce156bc6,927c903f3cd25c817c21738328b53991c035b415,2020-01-15,2020-01-15,1,1,3,0,3,33,4,37,django/db/models/base.py,tests/model_inheritance_regress/tests.py,db,1,db,"In the attached example code setting the primary key to `None` does not work (so that the existing object is overwritten on `save()`).
+
+The most important code fragments of the bug example:
+
+{{{
+from django.db import models
+
+class Item(models.Model):
+    # uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    uid = models.AutoField(primary_key=True, editable=False)
+
+    f = models.BooleanField(default=False)
+
+    def reset(self):
+        self.uid = None
+        self.f = False
+
+class Derived(Item):
+    pass
+}}}
+
+{{{
+class SaveTestCase(TestCase):
+    def setUp(self):
+        self.derived = Derived.objects.create(f=True)  # create the first object
+        item = Item.objects.get(pk=self.derived.pk)
+        obj1 = item.derived
+        obj1.reset()
+        obj1.save()  # the first object is overwritten
+
+    def test_f_true(self):
+        obj = Item.objects.get(pk=self.derived.pk)
+        self.assertTrue(obj.f)
+}}}
+
+Django 2.1.2",0,0,0,1,9,100,correctivo,1,entrenamiento,https://code.djangoproject.com/ticket/29871,https://github.com/django/django/commit/63e6ee1f996e16a1a6238fed16fdb28bce156bc6,0,0,"Resetting primary key for a child model doesn't work. In the attached example code setting the primary key to `None` does not work (so that the existing object is overwritten on `save()`). The most important code fragments of the bug example: from django.db import models class Item(models.Model): # uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) uid = models.AutoField(primary_key=True, editable=False) f = models.BooleanField(default=False) def reset(self): self.uid = None self.f = False class Derived(Item): pass class SaveTestCase(TestCase): def setUp(self): self.derived = Derived.objects.create(f=True) # create the first object item = Item.objects.get(pk=self.derived.pk) obj1 = item.derived obj1.reset() obj1.save() # the first object is overwritten def test_f_true(self): obj = Item.objects.get(pk=self.derived.pk) self.assertTrue(obj.f) Django 2.1.2"
+31124,Model.get_FOO_display() does not work correctly with inherited choices.,Yash Jhunjhunwala,Carlton Gibson,"Given a base model with choices A containing 3 tuples
+Child Model inherits the base model overrides the choices A and adds 2 more tuples
+get_foo_display does not work correctly for the new tuples added
+
+Example:
+
+
+{{{
+class A(models.Model):
+   foo_choice = [(""A"",""output1""),(""B"",""output2"")]
+   field_foo = models.CharField(max_length=254,choices=foo_choice)
+   class Meta:
+       abstract = True
+
+class B(A):
+   foo_choice = [(""A"",""output1""),(""B"",""output2""),(""C"",""output3"")]
+   field_foo = models.CharField(max_length=254,choices=foo_choice)
+}}}
+
+Upon invoking get_field_foo_display() on instance of B , 
+For value ""A"" and ""B"" the output works correctly i.e. returns ""output1"" / ""output2""
+but for value ""C"" the method returns ""C"" and not ""output3"" which is the expected behaviour
+
+",Bug,closed,"Database layer (models, ORM)",3.0,Release blocker,fixed,,Carlton Gibson Sergey Fedoseev,Ready for checkin,1,0,0,0,0,0,1,29c126bb349526b5f1cd78facbe9f25906f18563,d202846ced2f58d7a34ad80bfe2bde8a542a70b9,2020-01-15,2020-01-15,1,1,5,1,6,13,0,13,django/db/models/fields/__init__.py,tests/model_fields/tests.py,db,1,db,"Given a base model with choices A containing 3 tuples
+Child Model inherits the base model overrides the choices A and adds 2 more tuples
+get_foo_display does not work correctly for the new tuples added
+
+Example:
+
+
+{{{
+class A(models.Model):
+   foo_choice = [(""A"",""output1""),(""B"",""output2"")]
+   field_foo = models.CharField(max_length=254,choices=foo_choice)
+   class Meta:
+       abstract = True
+
+class B(A):
+   foo_choice = [(""A"",""output1""),(""B"",""output2""),(""C"",""output3"")]
+   field_foo = models.CharField(max_length=254,choices=foo_choice)
+}}}
+
+Upon invoking get_field_foo_display() on instance of B , 
+For value ""A"" and ""B"" the output works correctly i.e. returns ""output1"" / ""output2""
+but for value ""C"" the method returns ""C"" and not ""output3"" which is the expected behaviour
+
+",0,0,0,1,8,97,correctivo,1,entrenamiento,https://code.djangoproject.com/ticket/31124,https://github.com/django/django/commit/29c126bb349526b5f1cd78facbe9f25906f18563,0,0,"Model.get_FOO_display() does not work correctly with inherited choices. Given a base model with choices A containing 3 tuples Child Model inherits the base model overrides the choices A and adds 2 more tuples get_foo_display does not work correctly for the new tuples added Example: class A(models.Model): foo_choice = [(""A"",""output1""),(""B"",""output2"")] field_foo = models.CharField(max_length=254,choices=foo_choice) class Meta: abstract = True class B(A): foo_choice = [(""A"",""output1""),(""B"",""output2""),(""C"",""output3"")] field_foo = models.CharField(max_length=254,choices=foo_choice) Upon invoking get_field_foo_display() on instance of B , For value ""A"" and ""B"" the output works correctly i.e. returns ""output1"" / ""output2"" but for value ""C"" the method returns ""C"" and not ""output3"" which is the expected behaviour"
+29998,pk setup for MTI to parent get confused by multiple OneToOne references.,Mārtiņš Šulcs,Mariusz Felisiak,"{{{
+class Document(models.Model):
+    pass
+
+class Picking(Document):
+    document_ptr = models.OneToOneField(Document, on_delete=models.CASCADE, parent_link=True, related_name='+')
+    origin = models.OneToOneField(Document, related_name='picking', on_delete=models.PROTECT)
+}}}
+
+produces django.core.exceptions.ImproperlyConfigured: Add parent_link=True to appname.Picking.origin.
+
+{{{
+class Picking(Document):
+    origin = models.OneToOneField(Document, related_name='picking', on_delete=models.PROTECT)
+    document_ptr = models.OneToOneField(Document, on_delete=models.CASCADE, parent_link=True, related_name='+')
+}}}
+Works
+
+First issue is that order seems to matter?
+Even if ordering is required ""by design""(It shouldn't be we have explicit parent_link marker) shouldn't it look from top to bottom like it does with managers and other things?
+",Bug,closed,"Database layer (models, ORM)",dev,Normal,fixed,,Can Sarıgöl,Ready for checkin,1,0,0,0,0,0,1,bf77669453b9e9f64291da6701fe06fd5ba47e29,7400da49a5d0ec5a087c3cf05e0b2d15048fc93f,2020-01-16,2020-01-16,2,3,2,6,8,45,8,53,django/db/models/base.py;django/db/models/options.py,tests/invalid_models_tests/test_models.py;tests/invalid_models_tests/test_relative_fields.py;tests/migrations/test_state.py,db,1,db,"{{{
+class Document(models.Model):
+    pass
+
+class Picking(Document):
+    document_ptr = models.OneToOneField(Document, on_delete=models.CASCADE, parent_link=True, related_name='+')
+    origin = models.OneToOneField(Document, related_name='picking', on_delete=models.PROTECT)
+}}}
+
+produces django.core.exceptions.ImproperlyConfigured: Add parent_link=True to appname.Picking.origin.
+
+{{{
+class Picking(Document):
+    origin = models.OneToOneField(Document, related_name='picking', on_delete=models.PROTECT)
+    document_ptr = models.OneToOneField(Document, on_delete=models.CASCADE, parent_link=True, related_name='+')
+}}}
+Works
+
+First issue is that order seems to matter?
+Even if ordering is required ""by design""(It shouldn't be we have explicit parent_link marker) shouldn't it look from top to bottom like it does with managers and other things?
+",0,0,0,1,12,77,correctivo,1,entrenamiento,https://code.djangoproject.com/ticket/29998,https://github.com/django/django/commit/bf77669453b9e9f64291da6701fe06fd5ba47e29,0,0,"pk setup for MTI to parent get confused by multiple OneToOne references. class Document(models.Model): pass class Picking(Document): document_ptr = models.OneToOneField(Document, on_delete=models.CASCADE, parent_link=True, related_name='+') origin = models.OneToOneField(Document, related_name='picking', on_delete=models.PROTECT) produces django.core.exceptions.ImproperlyConfigured: Add parent_link=True to appname.Picking.origin. class Picking(Document): origin = models.OneToOneField(Document, related_name='picking', on_delete=models.PROTECT) document_ptr = models.OneToOneField(Document, on_delete=models.CASCADE, parent_link=True, related_name='+') Works First issue is that order seems to matter? Even if ordering is required ""by design""(It shouldn't be we have explicit parent_link marker) shouldn't it look from top to bottom like it does with managers and other things?"
+30752,Allow using ExceptionReporter subclass in django.views.debug.technical_500_response,Carlton Gibson,Pavel Lysak,"#29714 allows using an ExceptionReporter subclass with AdminEmailHandler. 
+
+Ideally we'd make the similar available for the 500 debug error view. 
+
+[https://github.com/django/django/blob/52e9c753659ffeab67149fcf26b95c10cf137c40/django/views/debug.py#L84-L95 Currently the use of `ExceptionReporter` is hardcoded.] 
+
+~~* Move this to a parameter~~
+~~* Provide an example of using, e.g., `functools.partial` to configure a subclass when specifying `handler500`.~~
+
+**Updated** for [https://code.djangoproject.com/ticket/30752#comment:5 comment:5]
+
+* Add `ExceptionReporter` to the documentation, explaining the relation between the exception reporter class and the filter it uses, and showing a simple override of `get_traceback_data()`. 
+* Add a `DEFAULT_EXCEPTION_REPORTER` setting to allow specifying this. 
+
+(At that point we could review deprecating `DEFAULT_EXCEPTION_REPORTER_FILTER`, as was discussed on #25167 — but maybe that's unnecessary. Thoughts?)",New feature,closed,Error reporting,dev,Normal,fixed,,Pavel Lysak,Ready for checkin,1,0,0,0,1,0,1,13e4abf83e5129b44c771b2204809792087abda4,a5a28de89dabfa03302a5893102b6f1a7c7861a1,2020-01-16,2020-01-16,3,3,11,2,13,27,1,28,django/conf/global_settings.py;django/utils/log.py;django/views/debug.py,tests/view_tests/tests/test_debug.py;tests/view_tests/urls.py;tests/view_tests/views.py,conf;utils;views,3,conf,"#29714 allows using an ExceptionReporter subclass with AdminEmailHandler. 
+
+Ideally we'd make the similar available for the 500 debug error view. 
+
+[https://github.com/django/django/blob/52e9c753659ffeab67149fcf26b95c10cf137c40/django/views/debug.py#L84-L95 Currently the use of `ExceptionReporter` is hardcoded.] 
+
+~~* Move this to a parameter~~
+~~* Provide an example of using, e.g., `functools.partial` to configure a subclass when specifying `handler500`.~~
+
+**Updated** for [https://code.djangoproject.com/ticket/30752#comment:5 comment:5]
+
+* Add `ExceptionReporter` to the documentation, explaining the relation between the exception reporter class and the filter it uses, and showing a simple override of `get_traceback_data()`. 
+* Add a `DEFAULT_EXCEPTION_REPORTER` setting to allow specifying this. 
+
+(At that point we could review deprecating `DEFAULT_EXCEPTION_REPORTER_FILTER`, as was discussed on #25167 — but maybe that's unnecessary. Thoughts?)",0,0,0,0,6,107,perfectivo,1,entrenamiento,https://code.djangoproject.com/ticket/30752,https://github.com/django/django/commit/13e4abf83e5129b44c771b2204809792087abda4,0,0,"Allow using ExceptionReporter subclass in django.views.debug.technical_500_response. #29714 allows using an ExceptionReporter subclass with AdminEmailHandler. Ideally we'd make the similar available for the 500 debug error view. Currently the use of `ExceptionReporter` is hardcoded. ~~* Move this to a parameter~~ ~~* Provide an example of using, e.g., `functools.partial` to configure a subclass when specifying `handler500`.~~ **Updated** for comment:5 * Add `ExceptionReporter` to the documentation, explaining the relation between the exception reporter class and the filter it uses, and showing a simple override of `get_traceback_data()`. * Add a `DEFAULT_EXCEPTION_REPORTER` setting to allow specifying this. (At that point we could review deprecating `DEFAULT_EXCEPTION_REPORTER_FILTER`, as was discussed on #25167 — but maybe that's unnecessary. Thoughts?)"
+30765,"cache_control() ""max_age"" overrides cache_page() ""timeout""",Danny Flack,Flavio Curella,"If you decorate a view with **both** `cache_control(max_age=3600)` and `cache_page(timeout=3600*24)`, the server side cache uses the `max_age` value instead of the `timeout` value.  
+
+The comments in `UpdateCacheMiddleware.process_response()` indicate it's trying to set the timeout by first looking for the `max-age` header before reverting to the **default** cache_timeout :
+
+**Try to get the timeout from the ""max-age"" section of the ""Cache-
+Control"" header before reverting to using the default cache_timeout
+length.**
+
+However, `cache_page(timeout=3600*24)` is explicitly setting the `cache_timeout` so that is what should be used.  
+
+In summary, if a user wants the client-side cache to be shorter-lived than the server-side cache, it is currently not possible using these two decorators.
+",Bug,closed,Core (Cache system),2.2,Normal,fixed,cache_control cache_page UpdateCacheMiddleware CacheMiddleware,,Accepted,1,0,0,0,0,0,1,d08d4f464ab11cc226d4e197c0f43e26a7fd2961,1e0dcd6c8bfa4519c21014c73eb510620dd1a000,2020-01-16,2020-01-16,2,1,15,10,25,23,0,23,django/middleware/cache.py;django/views/decorators/cache.py,tests/cache/tests.py,middleware;views,2,middleware,"If you decorate a view with **both** `cache_control(max_age=3600)` and `cache_page(timeout=3600*24)`, the server side cache uses the `max_age` value instead of the `timeout` value.  
+
+The comments in `UpdateCacheMiddleware.process_response()` indicate it's trying to set the timeout by first looking for the `max-age` header before reverting to the **default** cache_timeout :
+
+**Try to get the timeout from the ""max-age"" section of the ""Cache-
+Control"" header before reverting to using the default cache_timeout
+length.**
+
+However, `cache_page(timeout=3600*24)` is explicitly setting the `cache_timeout` so that is what should be used.  
+
+In summary, if a user wants the client-side cache to be shorter-lived than the server-side cache, it is currently not possible using these two decorators.
+",0,0,0,0,5,109,correctivo,1,entrenamiento,https://code.djangoproject.com/ticket/30765,https://github.com/django/django/commit/d08d4f464ab11cc226d4e197c0f43e26a7fd2961,0,0,"cache_control() ""max_age"" overrides cache_page() ""timeout"". If you decorate a view with **both** `cache_control(max_age=3600)` and `cache_page(timeout=3600*24)`, the server side cache uses the `max_age` value instead of the `timeout` value. The comments in `UpdateCacheMiddleware.process_response()` indicate it's trying to set the timeout by first looking for the `max-age` header before reverting to the **default** cache_timeout : **Try to get the timeout from the ""max-age"" section of the ""Cache- Control"" header before reverting to using the default cache_timeout length.** However, `cache_page(timeout=3600*24)` is explicitly setting the `cache_timeout` so that is what should be used. In summary, if a user wants the client-side cache to be shorter-lived than the server-side cache, it is currently not possible using these two decorators."
+31162,GIS error logging when using WKT string as input to filter() query.,Arno,Mariusz Felisiak,"When executing a geometry lookup like `my_geo_model.objects.filter(my_geom__intersects=wkt_string)` (i.e. using a WKT string as value)  django.contrib.gis emits the following errors:
+
+{{{
+2020-01-13 10:16:07,145 - django.contrib.gis - ERROR - GDAL_ERROR 4: b'POLYGON ((1 1, 1 0, 0 0, 0 1, 1 1)): No such file or directory'
+2020-01-13 10:16:08,403 - django.contrib.gis - ERROR - GDAL_ERROR 10: b""Pointer 'hObject' is NULL in 'GDALGetDescription'.\n""
+}}}
+
+The reason is that if passed a string, the string is first treated as a potential filename which GDAL tries to open and fails (""no such file""). Only then it is tried to open the string as WKT/GeoJSON etc. Older Django versions did not emit these errors. However, in commit 6f44f714c9 a check in django/contrib/gis/gdal/raster/source.py:69 whether the file exists was removed.
+
+Silencing all errors from django.contrib.gis is not really a feasable workaround, as it would mean silcencing interesting GIS errors too.
+
+According to https://docs.djangoproject.com/en/2.2/ref/contrib/gis/db-api/#geometry-lookups passing WKT strings is allowed, but there's no mention of being able to pass a filename as parameter.
+
+It's a bit unexpected that Django first tries to open a file before it checks whether the passed string is valid WKT/GeoJSON, and that using WKT results in error messages. Or am I misunderstanding the documentation and calling the API wrongly?
+
+Relevant parts of example source:
+
+{{{
+models.py:
+
+class Area(models.Model):
+    area = models.PolygonField()
+
+settings.py:
+
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    }
+}
+
+main.py:
+
+from app.models import Area
+Area.objects.filter(area__intersects='POLYGON ((1 1, 1 0, 0 0, 0 1, 1 1))')
+}}}",Bug,closed,GIS,dev,Normal,fixed,,,Accepted,1,0,0,0,0,0,1,266c853e10de50ce75af8be834647fda2c5fc2a0,d08d4f464ab11cc226d4e197c0f43e26a7fd2961,2020-01-16,2020-01-16,1,2,8,1,9,11,0,11,django/contrib/gis/gdal/raster/source.py,tests/gis_tests/gdal_tests/test_raster.py;tests/gis_tests/geoapp/tests.py,contrib/gis,1,contrib/gis,"When executing a geometry lookup like `my_geo_model.objects.filter(my_geom__intersects=wkt_string)` (i.e. using a WKT string as value)  django.contrib.gis emits the following errors:
+
+{{{
+2020-01-13 10:16:07,145 - django.contrib.gis - ERROR - GDAL_ERROR 4: b'POLYGON ((1 1, 1 0, 0 0, 0 1, 1 1)): No such file or directory'
+2020-01-13 10:16:08,403 - django.contrib.gis - ERROR - GDAL_ERROR 10: b""Pointer 'hObject' is NULL in 'GDALGetDescription'.\n""
+}}}
+
+The reason is that if passed a string, the string is first treated as a potential filename which GDAL tries to open and fails (""no such file""). Only then it is tried to open the string as WKT/GeoJSON etc. Older Django versions did not emit these errors. However, in commit 6f44f714c9 a check in django/contrib/gis/gdal/raster/source.py:69 whether the file exists was removed.
+
+Silencing all errors from django.contrib.gis is not really a feasable workaround, as it would mean silcencing interesting GIS errors too.
+
+According to https://docs.djangoproject.com/en/2.2/ref/contrib/gis/db-api/#geometry-lookups passing WKT strings is allowed, but there's no mention of being able to pass a filename as parameter.
+
+It's a bit unexpected that Django first tries to open a file before it checks whether the passed string is valid WKT/GeoJSON, and that using WKT results in error messages. Or am I misunderstanding the documentation and calling the API wrongly?
+
+Relevant parts of example source:
+
+{{{
+models.py:
+
+class Area(models.Model):
+    area = models.PolygonField()
+
+settings.py:
+
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    }
+}
+
+main.py:
+
+from app.models import Area
+Area.objects.filter(area__intersects='POLYGON ((1 1, 1 0, 0 0, 0 1, 1 1))')
+}}}",0,0,0,1,12,257,correctivo,1,entrenamiento,https://code.djangoproject.com/ticket/31162,https://github.com/django/django/commit/266c853e10de50ce75af8be834647fda2c5fc2a0,0,0,"GIS error logging when using WKT string as input to filter() query. When executing a geometry lookup like `my_geo_model.objects.filter(my_geom__intersects=wkt_string)` (i.e. using a WKT string as value) django.contrib.gis emits the following errors: 2020-01-13 10:16:07,145 - django.contrib.gis - ERROR - GDAL_ERROR 4: b'POLYGON ((1 1, 1 0, 0 0, 0 1, 1 1)): No such file or directory' 2020-01-13 10:16:08,403 - django.contrib.gis - ERROR - GDAL_ERROR 10: b""Pointer 'hObject' is NULL in 'GDALGetDescription'.\n"" The reason is that if passed a string, the string is first treated as a potential filename which GDAL tries to open and fails (""no such file""). Only then it is tried to open the string as WKT/GeoJSON etc. Older Django versions did not emit these errors. However, in commit 6f44f714c9 a check in django/contrib/gis/gdal/raster/source.py:69 whether the file exists was removed. Silencing all errors from django.contrib.gis is not really a feasable workaround, as it would mean silcencing interesting GIS errors too. According to [enlace] passing WKT strings is allowed, but there's no mention of being able to pass a filename as parameter. It's a bit unexpected that Django first tries to open a file before it checks whether the passed string is valid WKT/GeoJSON, and that using WKT results in error messages. Or am I misunderstanding the documentation and calling the API wrongly? Relevant parts of example source: models.py: class Area(models.Model): area = models.PolygonField() settings.py: LOGGING = { 'version': 1, 'handlers': { 'console': { 'level': 'INFO', 'class': 'logging.StreamHandler', }, }, 'root': { 'handlers': ['console'], 'level': 'INFO', } } main.py: from app.models import Area Area.objects.filter(area__intersects='POLYGON ((1 1, 1 0, 0 0, 0 1, 1 1))')"
